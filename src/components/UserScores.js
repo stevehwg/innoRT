@@ -501,31 +501,33 @@ class UserScores extends Component {
     console.log('state', this.state)
     return (
       <div className="container">
-        <div><h1>{userData.userName}'s Scores</h1></div>
         {
           fsData === undefined ?
             <div>Loading...</div>
           :
-            <List
-              bordered
-              dataSource={fsData.moviesScores}
-              renderItem={item => {
-                // find movie details
-                const movie = movieData.find(movie => movie.movieId === item.movieId)
+            <div>
+              <h1>{fsData.userName}'s Scores</h1>
+              <List
+                bordered
+                dataSource={fsData.moviesScores}
+                renderItem={item => {
+                  // find movie details
+                  const movie = movieData.find(movie => movie.movieId === item.movieId)
 
-                return (
-                  <List.Item>
-                    <List.Item.Meta
-                      title = {movie.movieName}
-                    />
-                    {`
-                      your Tomatometer Score ${item.tomatometerScore} vs ${movie.tomatometerScore} |
-                      your Audience Score ${item.audienceScode} vs ${movie.audienceScode}
-                    `}
-                  </List.Item>
-                )}
-              }
-            />
+                  return (
+                    <List.Item>
+                      <List.Item.Meta
+                        title = {movie.movieName}
+                      />
+                      {`
+                        your Tomatometer Score ${item.tomatometerScore} vs ${movie.tomatometerScore} |
+                        your Audience Score ${item.audienceScode} vs ${movie.audienceScode}
+                      `}
+                    </List.Item>
+                  )}
+                }
+              />
+            </div>
         }
         <h1>Version 2</h1>
         {
