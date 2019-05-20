@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import '../stylesheets/Header.css';
 
+import { firestoreConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -19,15 +23,21 @@ class Header extends Component {
 
     componentDidMount() {
         if (window.location.hostname !== 'localhost') {
+          try {
             let userData = JSON.parse(decodeURIComponent(this.getCookieValue("tempUserData")));
 
             if (!userData.firstName) {
                 userData = {firstName: "User", lastName: "", email: "user@innovid.com"}
             }
-
             this.setState({
                 userData
             })
+          }
+
+          catch(err) {
+            this.setState({err})
+          }
+
         } else {
             //FAKE DATA FOR TESTING
             this.setState({
@@ -37,6 +47,7 @@ class Header extends Component {
     }
 
     render() {
+        console.log(this.props)
         return (
             <div className="header">
                 <div id={"header-content"}>
@@ -56,4 +67,18 @@ class Header extends Component {
     }
 }
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    pools: state.firestore.ordered.pools,
+    auth: state.firebase.auth
+  }
+}
+
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect([
+    // order by created time in descending order.
+    // can add limit to limit the displayed records.
+    { collection: 'pools' }
+  ])
+)(Header);

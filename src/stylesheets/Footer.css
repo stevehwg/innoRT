@@ -21,6 +21,7 @@
     align-items: center;
     font-size: 12.5px;
     color: #808285;
+    position: relative;
     bottom: 0;
 }
 #footer span {

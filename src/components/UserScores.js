@@ -487,18 +487,18 @@ class UserScores extends Component {
       qs.docs.map(q => {
         const users = q.data().users
         const user = users.find(x => x.userName === uid)
-        this.setState({
+        return (this.setState({
           fsData: user
-        })
+        }))
       })
     })
   }
 
   render() {
-    const { userData, movieData, fsData } = this.state
-    console.log(fsData)
+    const { movieData, fsData } = this.state
+    // console.log(fsData)
 
-    console.log('state', this.state)
+    // console.log('state', this.state)
     return (
       <div className="container">
         {
